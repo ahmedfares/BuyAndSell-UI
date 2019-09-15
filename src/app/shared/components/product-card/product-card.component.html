@@ -1,0 +1,22 @@
+<div *ngIf="product.title" class="card">
+  <img *ngIf="product.imageUrl" class="img-responsive card-img" [src]="product.imageUrl" alt="{{ product.title }}">
+  <div class="card-body">
+    <h5 class="card-title">{{ product.title }}</h5>
+    <h5 class="card-desc">{{ product.desc }}</h5>
+    <p class="card-text">{{ product.price | currency:'USD':true }}</p>
+    <h5 class="card-title">{{ product.street }}</h5>
+    
+  </div>
+  <div class="row"> 
+    <div class="col-lg-4"><div *ngIf="showActions && shoppingCart" class="pull-left">
+        <button type="button" class="btn" (click)="like()" ><span class="fa fa-heart" style="color: white"></span></button>
+      </div></div>
+      <div class="col-lg-4"><div *ngIf="showActions && shoppingCart" style="text-align: center">
+          <button type="button" class="btn" (click)="like()" ><span class="fa fa-comment" style="color: black"></span></button>
+        </div></div>
+        <div class="col-lg-4"><div *ngIf="showActions && shoppingCart" class="pull-right">
+            <button type="button" class="btn" (click)="like()" ><span class="fa fa-share" style="color: grey"></span></button>
+          </div></div>
+  </div>
+  
+</div>

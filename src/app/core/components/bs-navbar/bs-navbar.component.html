@@ -1,0 +1,78 @@
+<nav class="navbar navbar-expand-md navbar-light fixed-top" style="background:#fff">
+  <div class="row">
+    <a routerLink="/"><img src="../../../../assets/Simba.png" width="50" height="50" style="margin-left:20px;margin-right:20px"/></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+     
+      <ul class="navbar-nav">
+          <ng-template #anonymousUser>
+            <li class="nav-item">
+              <a class="simpleBtn"  (click)="login()">Log In</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="actionBtn" routerLink="/admin/products/new">Sell Your Staff</a>
+            </li> --> 
+          </ng-template>
+          <li ngbDropdown *ngIf="appUser; else anonymousUser" class="nav-item dropdown">
+            <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ appUser.name }}
+            </a>
+            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+              <a class="dropdown-item" routerLink="/my/orders">MyOrders</a>
+              <ng-container *ngIf="appUser.isAdmin">
+                <a class="dropdown-item" routerLink="/admin/orders">Manage Orders</a>
+                <a class="dropdown-item" routerLink="/admin/products">Manage Products</a>
+                <a class="dropdown-item" routerLink="admin/statistics">Statistics</a>
+              </ng-container>
+              <a *ngIf="appUser" class="dropdown-item" (click)="logout()">Logout</a>
+            </div>
+            
+          </li>
+          <li class="nav-item">
+            <input class="Search" type="text" placeholder="Search">
+          </li>
+          <li class="nav-item">
+                <!-- <button  *ngIf="shoppingCart.getQuantity(product) === 0; else updateQuantity"
+          (click)="addToCart()"
+          class="btn btn-secondary btn-block">Add to Card</button> -->
+                  <a class="actionBtn" routerLink="/admin/products/new">Sell Your Staff</a>
+                </li>
+        </ul>
+      </div>
+  </div>
+</nav>
+
+<main role="main" class="container">
+
+  <!-- <div class="starter-template">
+    <h1>MO Shop</h1>
+  </div> -->
+
+</main>
+<div id="loginModal" class="modal">
+
+    <!-- Modal content -->
+          <div class="form">
+      <span (click)="closeModal()" class="close pull-right" style="margin-right:-40px;margin-top: -40px">&times;</span>
+      <form *ngIf="loginShow" class="login-form">
+              <input type="text" placeholder="name"/>
+              <input type="password" placeholder="password"/>
+              <input type="text" placeholder="email address"/>
+              <input type="text" placeholder="phone number"/>
+              <button>create</button>
+              <p class="message" (click)="toggle()">Already registered? <a href="#">Sign In</a></p>
+            </form>
+            <form *ngIf="!loginShow" class="login-form">
+              <input type="text" placeholder="username"/>
+              <input type="password" placeholder="password"/>
+              <button>login</button>
+              <p class="message" (click)="toggle()">Not registered? <a href="#">Create an account</a></p>
+            </form>
+          </div>
+  </div>
+
+  

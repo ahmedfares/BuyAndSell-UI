@@ -1,0 +1,20 @@
+<div class="row">
+   <div class="col-lg-6" >
+      <google-chart #chart [title]="pieChart.title" [type]="pieChart.type" [data]="pieChart.data" [columnNames]="pieChart.columnNames" [options]="pieChart.options"
+         [width]="pieChart.width" [height]="pieChart.height">
+      </google-chart>
+   </div>
+   <div class="col-lg-6">
+      <google-chart #chart [title]="lineChart.title" [type]="lineChart.type" [data]="lineChart.data" [columnNames]="lineChart.columnNames" [options]="lineChart.options"
+         [width]="lineChart.width" [height]="lineChart.height">
+      </google-chart>
+   </div>
+</div>
+<div class="row">
+   <div class="col-lg-3"></div>
+   <div class="col-lg-6" >
+      <google-chart #chart [title]="barChart.title" [type]="barChart.type" [data]="barChart.data" [columnNames]="barChart.columnNames" [options]="barChart.options"
+         [width]="barChart.width" [height]="barChart.height">
+      </google-chart>
+   </div>
+</div>

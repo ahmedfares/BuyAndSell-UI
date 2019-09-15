@@ -1,0 +1,60 @@
+<div class="row">
+<div class="col-lg-12" >
+  <img src="../../../../assets/banner.png" width="1110" height="132" >
+</div>
+</div>
+<div class="row" style="margin-bottom: 20px;margin-top: 20px">
+    <div class="col-lg-2" style="padding: 0;margin:0;margin-left:100px">
+        <div class="categoryLabel">Category</div>
+            <select [(ngModel)]="selectedCategory" (change)="filterByCat()" class="form-control">
+              <option *ngFor="let color of Categories" [value]="color">{{color}}</option>
+            </select>
+          </div>
+  
+        <div class="col-lg-2">
+          <div class="categoryLabel">Location</div>
+            <select class="form-control">
+                               <option *ngFor="let color of Cities" [value]="color.id">{{color.Name}}</option>
+            </select>
+              </div>
+              <div class="col-lg-2">
+          <div class="categoryLabel">Price</div>
+          <select [(ngModel)]="selectedPrice" (change)="filterByCat()" class="form-control">
+                      <option *ngFor="let color of Prices" [value]="color.id">{{color.Name}}</option>
+                    </select>
+                    </div>
+                    <div class="col-lg-2">
+          <div class="categoryLabel">Relatives</div>
+          <select class="form-control">
+                            <option *ngFor="let color of Relatives" [value]="color.id">{{color.Name}}</option>
+                          </select>
+                          </div>
+                          <div class="col-lg-2" style="padding: 0;margin:0">
+          <div class="categoryLabel">Posted Within</div>
+          <select class="form-control">
+                                  <option *ngFor="let color of Within" [value]="color.id">{{color.Name}}</option>
+                                </select>
+                                </div>
+                          <div class="col-lg-2">
+                             
+                                </div>
+  </div>
+
+<div class="row">
+  <!-- <div class="col-3">
+    <product-filter [category]="category"></product-filter>
+  </div> -->
+  <div class="col">
+    <div class="row" *ngIf="cart$ | async as cart">
+      <ng-container *ngFor="let p of filteredProducts; let i = index">
+        <div class="col-lg-3">
+          <a class="actionBtn" [routerLink]="['/admin/products/details', p.key]"><product-post [product]="p" [shopping-cart]="cart"></product-post></a>
+        </div>
+        <div *ngIf="(i+1) % 4 === 0" class="w-100"></div>
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div class="row pull-right" style="color:red"><span>&copy; Big thanks for Letgo design team</span></div>
+<!-- The Modal -->
+
