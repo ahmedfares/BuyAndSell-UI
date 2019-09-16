@@ -8,6 +8,8 @@ import { Subscription, Observable } from 'rxjs';
 import { ShoppingCart } from 'shared/models/shopping-cart';
 import { CategoryService } from 'shared/services/category.service';
 import {Http} from '@angular/http';
+import {environment } from 'environments/environment';
+import {DomSanitizer} from '@angular/platform-browser';
 
 export interface Food {
   value: string;
@@ -29,7 +31,9 @@ export class ProductsComponent implements OnInit {
   Within;
   allProducts;
   selectedCategory = "All";
-  selectedPrice = "All";
+  selectedCity = "All";
+  selectedPrice = 0;
+  selectedRelative=0;
   categories$;
   Categories:any[];
   posts:any[];
@@ -37,6 +41,7 @@ export class ProductsComponent implements OnInit {
     title: '',
     price: '',
     category: '',
+    createdTime:'',
     imageUrl: ''
   };
 
@@ -45,19 +50,33 @@ export class ProductsComponent implements OnInit {
     private productService: ProductService,
     private categoryService: CategoryService,
     private http:Http,
+    private sanitizer:DomSanitizer,
     private shoppingCartService: ShoppingCartService
   ) {
     this.categories$ = categoryService.getAll();
-      http.get('http://localhost:8080/api/item/categories').subscribe(response => {
+      http.get(environment.url + 'item/categories').subscribe(response => {
       console.log(response);
       this.Categories = response.json();
       this.Categories.unshift('All');
     })
-    http.get('http://localhost:8080/api/item/').subscribe(response => {
+    http.get(environment.url + 'item/').subscribe(response => {
       console.log(response);
       this.filteredProducts = response.json();
+      for (let index = 0; index < this.filteredProducts.length; index++) {
+        let prod:any = this.filteredProducts[index];
+        if(prod.photosURL.indexOf('http') == -1)
+        prod.photosURL = "./assets/"+ prod.photosURL.replace(/^.*[\\\/]/, '')
+        //this.filteredProducts[index].photosURL = prod.photosURL ;
+      }
       this.allProducts = this.filteredProducts.slice();
     })
+    this.categories$ = categoryService.getAll();
+      http.get(environment.url + 'item/cities').subscribe(response => {
+      console.log(response);
+      this.Cities = response.json();
+      this.Cities.unshift('All');
+    })
+    
     this.Cities = [
       {id:0,Name:'All'},
       {id:1,Name:'FairField'},
@@ -75,8 +94,7 @@ export class ProductsComponent implements OnInit {
       {id:0,Name:'All'},
       {id:1,Name:'Most Recent'},
       {id:2,Name:'Low Price'},
-      {id:3,Name:'High Price'},
-      {id:3,Name:'Closest Area'}
+      {id:3,Name:'High Price'}
     ]
     this.Within = [
       {id:0,Name:'All'},
@@ -92,11 +110,55 @@ export class ProductsComponent implements OnInit {
   }
 filterByCat()
 {
-    alert(this.selectedPrice);
-    let price = (parseInt(this.selectedPrice) == 1)?1000:(parseInt(this.selectedPrice) == 2)?10000:(parseInt(this.selectedPrice) == 3)?100000:500000;
+    //alert(this.selectedPrice);
+    let price = 0;
+    price = (this.selectedPrice == 1)?1000:(this.selectedPrice == 2)?10000:(this.selectedPrice == 3)?100000:500000;
     this.filteredProducts = this.allProducts.filter(x=>
     ((x.category == this.selectedCategory)||(this.selectedCategory == "All"))&&
-    ((x.price < price)||(this.selectedPrice == "All"))
-    );
+    ((x.price < price)||(this.selectedPrice == 0)) &&
+    ((x.city == this.selectedCity)||(this.selectedCity == "All")) );
+if (this.selectedRelative == 1)
+    {
+       this.filteredProducts = this.filteredProducts.sort((obj1, obj2) => {
+    if (obj1.createdTime > obj2.createdTime) {
+        return 1;
+    }
+
+    if (obj1.createdTime < obj2.createdTime) {
+        return -1;
+    }
+
+    return 0;
+});
+    }
+
+    if (this.selectedRelative == 2)
+    {
+       this.filteredProducts = this.filteredProducts.sort((obj1, obj2) => {
+    if (obj1.price > obj2.price) {
+        return 1;
+    }
+
+    if (obj1.price < obj2.price) {
+        return -1;
+    }
+
+    return 0;
+});
+    }
+    else if (this.selectedRelative == 3)
+    {
+       this.filteredProducts = this.filteredProducts.sort((obj1, obj2) => {
+    if (obj1.price > obj2.price) {
+        return -1;
+    }
+
+    if (obj1.price < obj2.price) {
+        return 1;
+    }
+
+    return 0;
+});
+      }
 }
 }

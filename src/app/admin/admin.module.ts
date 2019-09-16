@@ -19,7 +19,7 @@ import { AdminAuthGuard } from './services/admin-auth-guard.service';
       { path: 'admin/products/new', component: ProductFormComponent },
       { path: 'admin/products/details/:id', component: ProductDetailsComponent },
       { path: 'admin/products/:id', component: ProductFormComponent, canActivate: [AuthGuard, AdminAuthGuard] },
-      { path: 'admin/statistics', component: ProductStatisticsComponent, canActivate: [AuthGuard, AdminAuthGuard] },
+      { path: 'admin/statistics', component: ProductStatisticsComponent },
       { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuard, AdminAuthGuard] },
       { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard, AdminAuthGuard] },
     ])

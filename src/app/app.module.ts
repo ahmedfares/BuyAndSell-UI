@@ -16,11 +16,13 @@ import { ShoppingModule } from './shopping/shopping.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { TestComponent } from './test/test.component';
 import { GoogleChartsModule } from 'angular-google-charts';
+// import { SafeUrlPipe } from './app/shared/safe-url.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     TestComponent,
+    // SafeUrlPipe,
   ],
   imports: [
     BrowserModule,

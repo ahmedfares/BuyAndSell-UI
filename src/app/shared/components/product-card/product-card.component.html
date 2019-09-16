@@ -1,11 +1,11 @@
-<div *ngIf="product.title" class="card">
-  <img *ngIf="product.imageUrl" class="img-responsive card-img" [src]="product.imageUrl" alt="{{ product.title }}">
+<div *ngIf="product.itemName" class="card">
+  <img *ngIf="product.photosURL" class="img-responsive card-img" [src]="product.photosURL" alt="{{ product.itemName }}">
   <div class="card-body">
-    <h5 class="card-title">{{ product.title }}</h5>
-    <h5 class="card-desc">{{ product.desc }}</h5>
+    <h5 class="card-title">{{ product.itemName }}</h5>
+    <h5 class="card-desc">{{ product.itemDescription }}</h5>
     <p class="card-text">{{ product.price | currency:'USD':true }}</p>
-    <h5 class="card-title">{{ product.street }}</h5>
-    
+    <h5 class="card-title">{{ product.city }}</h5>
+     
   </div>
   <div class="row"> 
     <div class="col-lg-4"><div *ngIf="showActions && shoppingCart" class="pull-left">

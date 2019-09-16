@@ -4,7 +4,8 @@ import { ProductService } from 'shared/services/product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/take';
 import * as $ from 'jquery';
-
+import {Http} from '@angular/http';
+import {environment } from 'environments/environment';
 
 
 @Component({
@@ -74,6 +75,7 @@ export class ProductStatisticsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private categoryService: CategoryService,
+    private http:Http,
     private productService: ProductService) {
     this.categories$ = categoryService.getAll();
 this.Cities = [
@@ -81,6 +83,19 @@ this.Cities = [
       {id:2,Name:'Des Moines'},
       {id:3,Name:'Iowa City'}
     ]
+
+     this.http.get(environment.url + 'stat/cateChart').subscribe(response => {
+      this.pieChart.data = response.json();
+    })
+
+    this.http.get(environment.url + 'stat/itemChart').subscribe(response => {
+      this.barChart.data = response.json();
+    })
+
+    this.http.get(environment.url + 'stat/userChart').subscribe(response => {
+      this.lineChart.data = response.json();
+    })
+
     this.id = route.snapshot.paramMap.get('id');
     if (this.id) productService.get(this.id).valueChanges().take(1).subscribe(p => this.product = p);
   }

@@ -4,27 +4,53 @@ import { AppUser } from 'shared/models/app-user';
 import { ShoppingCartService } from 'shared/services/shopping-cart.service';
 import { Observable } from 'rxjs';
 import { ShoppingCart } from 'shared/models/shopping-cart';
+import { FormGroup } from '@angular/forms';
+import * as $ from 'jquery';
+import {environment } from 'environments/environment';
+import {Http} from '@angular/http';
+
 
 var modal = document.getElementById("loginModal");
-
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
 }
+
 @Component({
   selector: 'bs-navbar',
   templateUrl: './bs-navbar.component.html',
   styleUrls: ['./bs-navbar.component.css']
 })
 export class BsNavbarComponent implements OnInit{
-  appUser: AppUser;
+  appUser: any;
   cart$: Observable<ShoppingCart>;
+  firstName:string;
+  regForm:FormGroup;
+  user :any = {
+  };
 loginShow;
-  constructor(private auth: AuthService, private shoppingCartService: ShoppingCartService) {
+  constructor(private auth: AuthService, 
+  private http:Http,
+  private shoppingCartService: ShoppingCartService) {
     this.loginShow = false;
    }
+
+signUp(user){
+  this.http.post(environment.url + 'user/add',user ).subscribe(response => {
+      this.loginShow = true;
+    })
+}
+loginUser(user){
+  this.http.post(environment.url + 'auth/login',user ).subscribe(response => {
+    this.appUser = response.json();
+      var modal = document.getElementById("loginModal");
+    modal.style.display = "none";
+    })
+}
+
+
    login(){
     var modal = document.getElementById("loginModal");
     modal.style.display = "block";

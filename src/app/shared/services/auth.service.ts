@@ -7,6 +7,7 @@ import { AppUser } from 'shared/models/app-user';
 import { UserService } from './user.service';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,22 @@ import 'rxjs/add/observable/of';
 export class AuthService {
   user$: Observable<firebase.User>
 
-  constructor(private userService: UserService, private afAuth: AngularFireAuth, private route: ActivatedRoute) {
+  constructor(private userService: UserService,
+  private client: HttpClient,
+  
+   private afAuth: AngularFireAuth, private route: ActivatedRoute) {
     this.user$ = afAuth.authState;
    }
+
+   postFile(fileToUpload: File): Observable<boolean> {
+    const endpoint = 'http://localhost:8080/api/photo/upload';
+    let formdata: FormData = new FormData();
+    formdata.append('file', fileToUpload);
+    return this.client
+      .post(endpoint, formdata)
+      .map(() => { return true; });
+    }
+
 
   login(){
     let returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/';

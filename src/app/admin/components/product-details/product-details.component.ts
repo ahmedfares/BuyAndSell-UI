@@ -4,7 +4,8 @@ import { ProductService } from 'shared/services/product.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/take';
 import * as $ from 'jquery';
-
+import {environment } from 'environments/environment';
+import {Http} from '@angular/http';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class ProductDetailsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private categoryService: CategoryService,
+    private http:Http,
     private productService: ProductService) {
     this.categories$ = categoryService.getAll();
 this.Cities = [
@@ -39,9 +41,9 @@ this.Cities = [
       //console.log(params);
       let parameter: any = params;
       this.id =  parameter.params.id;
-      productService.get(this.id).valueChanges().take(1).subscribe(p =>
-         this.product = p
-         );
+      http.get(environment.url + 'item/items/'+this.id).subscribe(p => {
+      this.product = p.json();
+    })
     })
     
   }

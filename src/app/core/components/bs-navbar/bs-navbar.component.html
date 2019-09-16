@@ -19,13 +19,11 @@
           </ng-template>
           <li ngbDropdown *ngIf="appUser; else anonymousUser" class="nav-item dropdown">
             <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ appUser.name }}
+              {{ appUser.name }}{{ appUser.firstName }}
             </a>
             <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" routerLink="/my/orders">MyOrders</a>
-              <ng-container *ngIf="appUser.isAdmin">
-                <a class="dropdown-item" routerLink="/admin/orders">Manage Orders</a>
-                <a class="dropdown-item" routerLink="/admin/products">Manage Products</a>
+              <ng-container *ngIf="appUser.isAdmin || appUser.admin">
                 <a class="dropdown-item" routerLink="admin/statistics">Statistics</a>
               </ng-container>
               <a *ngIf="appUser" class="dropdown-item" (click)="logout()">Logout</a>
@@ -55,20 +53,22 @@
 </main>
 <div id="loginModal" class="modal">
 
+
     <!-- Modal content -->
           <div class="form">
       <span (click)="closeModal()" class="close pull-right" style="margin-right:-40px;margin-top: -40px">&times;</span>
-      <form *ngIf="loginShow" class="login-form">
-              <input type="text" placeholder="name"/>
-              <input type="password" placeholder="password"/>
-              <input type="text" placeholder="email address"/>
-              <input type="text" placeholder="phone number"/>
-              <button>create</button>
+      <form  #f="ngForm" (ngSubmit)="signUp(f.value)" *ngIf="!loginShow" class="login-form">
+              <input id="first"[(ngModel)]="user.firstName" name="firstName" type="text" placeholder="first name"/>
+              <input id="last" [(ngModel)]="user.lastName" name="lastName" type="text" placeholder="last name"/>
+              <input id="pass" [(ngModel)]="user.password" name="password" type="password" placeholder="password"/>
+              <input id="email"[(ngModel)]="user.email" name="email" type="text" placeholder="email address"/>
+              <input id="phone"[(ngModel)]="user.phone" name="phone" type="text" placeholder="phone number"/>
+              <button >create</button>
               <p class="message" (click)="toggle()">Already registered? <a href="#">Sign In</a></p>
             </form>
-            <form *ngIf="!loginShow" class="login-form">
-              <input type="text" placeholder="username"/>
-              <input type="password" placeholder="password"/>
+            <form #f="ngForm" (ngSubmit)="loginUser(f.value)" *ngIf="loginShow" class="login-form">
+              <input id="email"[(ngModel)]="user.email" name="email" type="text" placeholder="username"/>
+              <input id="pass" [(ngModel)]="user.password" name="password" type="password" placeholder="password"/>
               <button>login</button>
               <p class="message" (click)="toggle()">Not registered? <a href="#">Create an account</a></p>
             </form>

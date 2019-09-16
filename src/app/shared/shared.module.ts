@@ -16,11 +16,14 @@ import { DataTableModule } from 'angular5-data-table';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import {HttpClientModule} from '@angular/common/http';
+import { SafeUrlPipe } from './safe-url.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     CustomFormsModule,
     DataTableModule,
     AngularFireDatabaseModule,
@@ -31,7 +34,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
   declarations: [
     ProductCardComponent,
     ProductPostComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    SafeUrlPipe
   ],
   exports: [
     CommonModule,

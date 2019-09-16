@@ -13,8 +13,8 @@
   
         <div class="col-lg-2">
           <div class="categoryLabel">Location</div>
-            <select class="form-control">
-                               <option *ngFor="let color of Cities" [value]="color.id">{{color.Name}}</option>
+            <select [(ngModel)]="selectedCity" (change)="filterByCat()" class="form-control">
+                               <option *ngFor="let color of Cities" [value]="color">{{color}}</option>
             </select>
               </div>
               <div class="col-lg-2">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-lg-2">
           <div class="categoryLabel">Relatives</div>
-          <select class="form-control">
+          <select [(ngModel)]="selectedRelative" (change)="filterByCat()" class="form-control">
                             <option *ngFor="let color of Relatives" [value]="color.id">{{color.Name}}</option>
                           </select>
                           </div>
@@ -41,14 +41,11 @@
   </div>
 
 <div class="row">
-  <!-- <div class="col-3">
-    <product-filter [category]="category"></product-filter>
-  </div> -->
   <div class="col">
     <div class="row" *ngIf="cart$ | async as cart">
       <ng-container *ngFor="let p of filteredProducts; let i = index">
         <div class="col-lg-3">
-          <a class="actionBtn" [routerLink]="['/admin/products/details', p.key]"><product-post [product]="p" [shopping-cart]="cart"></product-post></a>
+          <a class="actionBtn" [routerLink]="['/admin/products/details', p.id]"><product-post [product]="p" [shopping-cart]="cart"></product-post></a>
         </div>
         <div *ngIf="(i+1) % 4 === 0" class="w-100"></div>
       </ng-container>
